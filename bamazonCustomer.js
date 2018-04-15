@@ -46,6 +46,16 @@ inquirer.prompt([
    var quantity = answers.quantity;
     console.log(item_number);
     console.log(quantity);
+    // check to see if units purchased is < quantity, 
+    connection.query("SELECT * FROM products", function(err, res) {
+
+       var stock = res[i].stock_quantity;
+       console.log("stock is " + stock);
+    
+    })
+        // if yes then update SQL to subtract units purchased
+
+        // if no then console.log("Insufficient quantity!");
         
 }).catch(function(err){
     console.log(err);
