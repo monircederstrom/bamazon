@@ -42,22 +42,24 @@ inquirer.prompt([
     }
 
 ]).then(function(answers){
+   var item_number = answers.item_number;
+   var quantity = answers.quantity;
+    console.log(item_number);
+    console.log(quantity);
+    // check to see if units purchased is < quantity, 
+    connection.query("SELECT * FROM products", function(err, res) {
 
-    // check to see if units purchased is < quantity,     
-    var query = connection.query("SELECT * FROM products WHERE item_id=?", answers.item_number, function(err, res) {
+       var stock = res[i].stock_quantity;
+       console.log("stock is " + stock);
+    
+    })
         // if yes then update SQL to subtract units purchased
-      if (answers.quantity > res[0].stock_quantity) {
-        console.log("Order too large. We can not fulfill your order.")
-       } 
-      // if no then console.log("Insufficient quantity!");
-       else {
-        var query = connection.query("UPDATE products SET ? WHERE ?",
-        [{stock_quantity: res[0].stock_quantity - answers.quantity},
-       {item_id: answers.item_number}]);
-      console.log("Your total cost is $" + answers.quantity * res[0].price.toFixed(2));
-       };
-       connection.end();
-      
-      })
-      })}}
-  
+
+        // if no then console.log("Insufficient quantity!");
+        
+}).catch(function(err){
+    console.log(err);
+    });
+};
+connection.end();
+}
