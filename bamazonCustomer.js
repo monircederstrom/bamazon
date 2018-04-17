@@ -16,7 +16,6 @@ connection.connect(function (err) {
   if (err) throw err;
   console.log("connected as id " + connection.threadId);
   queryAllProducts();
-  //queryDanceSongs();
 });
 
 function queryAllProducts() {
