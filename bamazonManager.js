@@ -25,7 +25,7 @@ inquirer.prompt([
     type: "list",
     name: "options_menu",
     message: "What would you like to do?",
-    choices: ["Products for Sale", "Low Inventory", "Add to inventory", "Add new product"]
+    choices: ["Products for Sale", "Low Inventory", "Add to inventory", "Add new product", "End program"]
     },
     ]).then(function (answers) {
         
@@ -47,6 +47,10 @@ inquirer.prompt([
             case "Add new product":
             addProduct();
             break;
+
+            case "End program":
+            connection.end();
+            break;
         //end of switch
         };
 
@@ -55,8 +59,8 @@ inquirer.prompt([
 
 //end of user input()
 };
-function addProduct() {
-    console.log("Inserting a new product...\n");
+//function addProduct() {
+  //  console.log("Inserting a new product...\n");
     
     //add inquirer to find out what to add
 
@@ -68,20 +72,20 @@ function addProduct() {
 
 
 
-    var query = connection.query(
-      "INSERT INTO products SET ?",
-      {
-        product_name: answers.product_name,
-        department_name: answers.department_name,
-        price: answers.price,
-        quantity: answers.units
-      },
-      function(err, res) {
-        console.log(res.affectedRows + " product inserted!\n");
+    //var query = connection.query(
+      //"INSERT INTO products SET ?",
+     // {
+       // product_name: answers.product_name,
+        //department_name: answers.department_name,
+       // price: answers.price,
+     //   quantity: answers.units
+     // },
+      //function(err, res) {
+       // console.log(res.affectedRows + " product inserted!\n");
         // Call updateProduct AFTER the INSERT completes
-        updateProduct();
-      }
-    );
+      //  updateProduct();
+      //}
+    //);
 function queryAllProducts() {
     connection.query("SELECT * FROM products", function (err, res) {
         for (var i = 0; i < res.length; i++) {
@@ -89,9 +93,9 @@ function queryAllProducts() {
         //end of for loop
         }
         console.log("-----------------------------------");
-    
+    userInput();
     //end of connection.query
     });
-    connection.end();
+   
 //end of queryAllProducts()
-}
+};
