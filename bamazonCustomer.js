@@ -59,7 +59,6 @@ function queryAllProducts() {
           ]);
           console.log("Your total cost is $" + answers.quantity * res[0].price.toFixed(2));
         };
-        //onnection.end();
 
       })
     })
