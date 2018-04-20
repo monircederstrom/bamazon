@@ -59,39 +59,41 @@ inquirer.prompt([
 
 //end of user input()
 };
-function addInventory() {
-        inquirer.prompt([
-            {
-            type: "input",
-            name: "name",
-            message: "What product would you like to add?"
-            },
-            {
-            type: "input",
-            name: "department",
-            message: "What department is your product going to be added to?"
-            },
-            {
-            type: "input",
-            name: "cost",
-            message: "How much does your product cost?"
-            },
-            {
-            type: "input",
-            name: "amount",
-            message: "How many units of this product would you like to add?"
-            }
-            ]).then(function (response) {
-    console.log("Inserting a new product...\n");
-    var query = connection.query("INSERT INTO products SET ?", 
+
+function addProduct() {
+    inquirer.prompt([
         {
-        product_name: response.name,
-        department_name: response.department,
-        price: response.cost,
-        stock_quantity: response.amount
+        type: "input",
+        name: "name",
+        message: "What product would you like to add?"
+        },
+        {
+        type: "input",
+        name: "department",
+        message: "What department is your product going to be added to?"
+        },
+        {
+        type: "input",
+        name: "cost",
+        message: "How much does your product cost?"
+        },
+        {
+        type: "input",
+        name: "amount",
+        message: "How many units of this product would you like to add?"
         }
-    );
-    userInput();
+        ]).then(function (response) {
+console.log("Inserting a new product...\n");
+var query = connection.query("INSERT INTO products SET ?", 
+    {
+    product_name: response.name,
+    department_name: response.department,
+    price: response.cost,
+    stock_quantity: response.amount
+    }
+);
+
+userInput();
 });
 };
 
@@ -124,30 +126,40 @@ function queryAllProducts() {
    
 //end of queryAllProducts()
 };
-//function addProduct() {
-  //  console.log("Inserting a new product...\n");
-    
-    //add inquirer to find out what to add
+function addInventory() {
+    inquirer.prompt([
+        {
+        type: "input",
+        name: "number",
+        message: "What is the product id number of the product would you like to add inventory to?"
+        },
+        {
+        type: "input",
+        name: "amount",
+        message: "How many units of this product would you like to add?"
+        }
+        ]).then(function (retort) {
+    console.log("Inserting a new product...\n");
+    var query = connection.query("SELECT * FROM products WHERE item_id=?", retort.number, function (err, res) {
+        var amount =  parseInt(retort.amount);
+        var stockMe = res[0].stock_quantity + amount;
+    var query = connection.query("UPDATE products SET ? WHERE ?", [{
+        stock_quantity: stockMe
+      },
+      {
+        item_id: retort.number
+      }
+    ],
+    function(err, res) {
+        
+    });
+        
+       queryAllProducts();
+      
+    });
+ 
+    userInput();
+    });
+}
 
 
-
-
-
-
-
-
-
-    //var query = connection.query(
-      //"INSERT INTO products SET ?",
-     // {
-       // product_name: answers.product_name,
-        //department_name: answers.department_name,
-       // price: answers.price,
-     //   quantity: answers.units
-     // },
-      //function(err, res) {
-       // console.log(res.affectedRows + " product inserted!\n");
-        // Call updateProduct AFTER the INSERT completes
-      //  updateProduct();
-      //}
-    //);
