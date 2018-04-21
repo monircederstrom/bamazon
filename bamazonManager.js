@@ -49,6 +49,7 @@ inquirer.prompt([
             break;
 
             case "End program":
+            console.log("\n Program has closed. \n")
             connection.end();
             break;
         //end of switch
@@ -92,7 +93,7 @@ var query = connection.query("INSERT INTO products SET ?",
     stock_quantity: response.amount
     }
 );
-
+console.log("\n Product inventory is now updated. \n")
 userInput();
 });
 };
@@ -149,17 +150,11 @@ function addInventory() {
       {
         item_id: retort.number
       }
-    ],
-    function(err, res) {
-        
-    });
-        
-       queryAllProducts();
-      
-    });
- 
+    ]);
+    console.log("\n Product added.\n");
     userInput();
     });
+});
 }
 
 
